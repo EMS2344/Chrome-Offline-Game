@@ -40,6 +40,9 @@ let gravity = 0.4;
 let gameOver = false;
 let score = 0;
 
+let dinoDuckImg;
+let isDucking = false; // Track if the dino is ducking
+
 window.onload = function () {
   board = document.getElementById("board");
   board.height = boardHeight;
@@ -48,6 +51,10 @@ window.onload = function () {
   context = board.getContext("2d"); //we are using this to draw on our board
   dinoImg = new Image();
   dinoImg.src = "./img/dino.png";
+
+  dinoDuckImg = new Image();
+  dinoDuckImg.src = "./img/dino-duck1.png";
+
   dinoImg.onload = function () {
     // The onload event ensures that the image is fully loaded before you try to draw it on the canvas.
     context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
@@ -64,7 +71,9 @@ window.onload = function () {
 
   requestAnimationFrame(update);
   setInterval(placeCactus, 1000); //1000 millisecond = 1 so every second we are going to generate a random cactus from our three options
-  document.addEventListener("keydown", moveDino); //whenever we press on a space or up arrow key we want the dino to move
+  document.addEventListener("keydown", moveDino); //whenever we press on a space or up arrow key we want the dino to move also we use keydown bcs it is used for detecting when a key is pressed and held down which is what we wanna look out for
+  document.addEventListener("keyup", stopDucking); // This listens for when the "down arrow" key is released (keyup event).
+  // When the key is released, it calls the stopDucking function, which will switch the dino back to its standing position.
 };
 
 function update() {
@@ -78,17 +87,16 @@ function update() {
   velocityY += gravity;
   dino.y = Math.min(dino.y + velocityY, dinoY); //applying gravity to current dino.y so it doesnt exceed our x aka ground
   context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+
+  if (isDucking) {
+    context.drawImage(dinoDuckImg, dinodino.x, dino.y, dino.width, dino.height);
+  } else context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+
   //cactus img
   for (let i = 0; i < cactusArray.length; i++) {
     let cactus = cactusArray[i];
     cactus.x += velocityX; //he line cactus.x += velocityX; is updating the cactus's horizontal position by adding the value of velocityX to its current x position, causing it to move on the canvas.
-    context.drawImage(
-      cactus.img,
-      cactus.x,
-      cactus.y,
-      cactus.width,
-      cactus.height
-    );
+    context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
     if (detectCollision(dino, cactus)) {
       gameOver = true;
       dinoImg.src = "./img/dino-dead.png";
@@ -99,7 +107,7 @@ function update() {
   }
 
   //score counter
-  context.fillStyle = "black";
+  context.fillStyle = "white";
   context.font = "20px courier";
   score++;
   context.fillText(score, 5, 20);
@@ -116,8 +124,17 @@ function moveDino(e) {
     //In this context, dino.y represents the current vertical position of the dino, while dinoY
     // represents the ground level position (where the dino stands), and the condition checks if the dino is on the ground before allowing a jump when the Space or ArrowUp key is pressed.
     velocityY = -10;
-  } else if (e.code == "ArrowDown" && dino.y == dinoy) {
+  } else if (e.code == "ArrowDown" && dino.y == dinoY) {
     //logic for ducking
+    dinoImg = dinoDuckImg; //so if user presses arrow down and the dino is touching the floor then it will switch to ducking img
+  }
+}
+
+function stopDucking(e) {
+  if (e.code == "ArrowDown") {
+    // When the down arrow key is released, switch back to standing img
+    dinoImg = new Image();
+    dinoImg.src = "./img/dino.png";
   }
 }
 
@@ -170,3 +187,13 @@ function detectCollision(a, b) {
     a.y + a.height > b.y //This checks if the bottom side of object 'a' (dino) is below the top side of object 'b' (cactus).
   );
 }
+
+$(".change").on("click", function () {
+  if ($("body").hasClass("dark")) {
+    $("body").removeClass("dark");
+    $(".change").text("OFF");
+  } else {
+    $("body").addClass("dark");
+    $(".change").text("ON");
+  }
+});

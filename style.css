@@ -1,9 +1,51 @@
 body {
   font-family: "Courier New", Courier, monospace;
   text-align: center;
+  background-color: white;
 }
 
 #board {
-  background-color: rgb(226, 218, 217);
+  background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+  position: relative;
+  top: 20vh;
   border-bottom: 1px solid black;
+}
+.dark #board {
+  background: rgb(103, 31, 31);
+  border: 1px solid white; /* Optional: Change border color in dark mode */
+}
+.header {
+  color: black;
+  position: relative;
+  top: 10vh;
+}
+body.dark .header {
+  color: white; /* Dark mode header color */
+}
+
+.mode {
+  float: black;
+  font-family: "Titillium Web", sans-serif;
+  width: 200px;
+  position: relative;
+  left: 900px;
+  top: 100px;
+  height: 100px;
+  z-index: 2;
+  font-size: 20px;
+}
+.modedark {
+  color: white;
+}
+.change {
+  font-family: "Titillium Web", sans-serif;
+  cursor: pointer;
+  border: 1px solid #555;
+  border-radius: 40%;
+  width: 20px;
+  padding: 5px;
+  margin-left: 8px;
+}
+.dark {
+  background: radial-gradient(circle, rgba(60, 64, 82, 1) 0%, rgba(0, 0, 0, 1) 100%);
 }
