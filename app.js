@@ -32,6 +32,18 @@ let cactus1Img;
 let cactus2Img;
 let cactus3Img;
 
+//Bird (using this to reference our cactus)
+let birdArray = [];
+let bird1Width = 34;
+let bird2Width = 69;
+
+let birdHeight = 70;
+let birdX = 700;
+let birdY = 80;
+
+let bird1Img;
+let bird2Img;
+
 //Game physics
 let velocityX = -8; //speed cactus is moving at going left
 let velocityY = 0; //cactus always stays on the ground
@@ -42,7 +54,9 @@ let score = 0;
 
 let dinoDuckImg;
 let isDucking = false; // Track if the dino is ducking
+let duckHeight = 10;
 
+//board
 window.onload = function () {
   board = document.getElementById("board");
   board.height = boardHeight;
@@ -60,6 +74,7 @@ window.onload = function () {
     context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
   };
 
+  //cactus img
   cactus1Img = new Image();
   cactus1Img.src = "./img/big-cactus1.png";
 
@@ -68,9 +83,16 @@ window.onload = function () {
 
   cactus3Img = new Image();
   cactus3Img.src = "./img/big-cactus3.png";
+  //bird img
+  bird1Img = new Image();
+  bird1Img.src = "./img/bird1.png";
+
+  bird2Img = new Image();
+  bird2Img.src = "./img/bird2.png";
 
   requestAnimationFrame(update);
   setInterval(placeCactus, 1000); //1000 millisecond = 1 so every second we are going to generate a random cactus from our three options
+  setInterval(placeBird, 2900);
   document.addEventListener("keydown", moveDino); //whenever we press on a space or up arrow key we want the dino to move also we use keydown bcs it is used for detecting when a key is pressed and held down which is what we wanna look out for
   document.addEventListener("keyup", stopDucking); // This listens for when the "down arrow" key is released (keyup event).
   // When the key is released, it calls the stopDucking function, which will switch the dino back to its standing position.
@@ -89,14 +111,20 @@ function update() {
   context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
 
   if (isDucking) {
-    context.drawImage(dinoDuckImg, dinodino.x, dino.y, dino.width, dino.height);
+    context.drawImage(dinoDuckImg, dino.x, dino.y, dino.width, dino.height);
   } else context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
 
   //cactus img
   for (let i = 0; i < cactusArray.length; i++) {
     let cactus = cactusArray[i];
     cactus.x += velocityX; //he line cactus.x += velocityX; is updating the cactus's horizontal position by adding the value of velocityX to its current x position, causing it to move on the canvas.
-    context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
+    context.drawImage(
+      cactus.img,
+      cactus.x,
+      cactus.y,
+      cactus.width,
+      cactus.height
+    );
     if (detectCollision(dino, cactus)) {
       gameOver = true;
       dinoImg.src = "./img/dino-dead.png";
@@ -106,6 +134,19 @@ function update() {
     }
   }
 
+  //bird imgs function or code
+  for (let i = 0; i < birdArray.length; i++) {
+    let bird = birdArray[i];
+    bird.x += velocityX; //he line cactus.x += velocityX; is updating the cactus's horizontal position by adding the value of velocityX to its current x position, causing it to move on the canvas.
+    context.drawImage(bird.img, bird.x, bird.y, bird.width, bird.height);
+    if (detectCollision(dino, bird)) {
+      gameOver = true;
+      dinoImg.src = "./img/dino-dead.png";
+      dinoImg.onload = function () {
+        context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+      };
+    }
+  }
   //score counter
   context.fillStyle = "white";
   context.font = "20px courier";
@@ -151,6 +192,7 @@ function placeCactus() {
     width: null,
     height: cactusHeight,
   };
+
   let placeCactusChance = Math.random(); //gives you a number between 0 - 0.9999
 
   if (placeCactusChance > 0.9) {
@@ -176,6 +218,42 @@ function placeCactus() {
   // will keep increasing in size indefinitely. This can eventually lead to performance issues, as more
   //memory will be used to store the growing number of cactuses.
 }
+
+function placeBird() {
+  if (gameOver) {
+    //if the game is over no need to place cactus
+    return;
+  }
+  //place bird
+  let bird = {
+    img: null,
+    x: birdX,
+    y: birdY,
+    width: null,
+    height: birdHeight,
+  };
+  let placeBirdChance = Math.random(); //gives you a number between 0 - 0.9999
+
+  if (placeBirdChance > 0.7) {
+    // we have now a 10% chance of drawing cactus 1 during our game
+    bird.img = bird1Img;
+    bird.width = bird1Width;
+    birdArray.push(bird);
+  } else if (placeBirdChance > 0.5) {
+    // we have now a 30% chance of drawing cactus 2 during our game
+    bird.img = bird2Img;
+    bird.width = bird2Width;
+    birdArray.push(bird);
+  }
+
+  if (birdArray.length > 5) {
+    birdArray.shift(); //we remove the first element from the array so that the array doesnt constantly grow
+  } //The phrase "constantly grow" in this context means that if you keep adding new cactuses to the cactusArray without removing any, the array
+  // will keep increasing in size indefinitely. This can eventually lead to performance issues, as more
+  //memory will be used to store the growing number of cactuses.
+}
+
+//collision detection
 
 function detectCollision(a, b) {
   // we do a and b bcs its two objects the dino and our cactus
