@@ -1,7 +1,10 @@
 body {
   font-family: "Courier New", Courier, monospace;
   text-align: center;
-  background-color: rgb(250, 242, 242);
+  background-color: rgb(141, 140, 140);
+}
+body.dark {
+  background-color: rgb(17, 16, 16); /* Dark mode background color */
 }
 
 #board {
@@ -22,22 +25,74 @@ body {
   );
   border: 1px solid white; /* Optional: Change border color in dark mode */
 }
-body.dark {
-  background-color: rgb(59, 57, 57); /* Dark mode background color */
-}
 
 .header {
-  color: black;
+  color: rgb(0, 0, 0);
   position: relative;
-  top: 10vh;
+  top: -1vh;
+  height: 4vh;
+  border-bottom: solid 1px rgb(8, 8, 8);
+  text-indent: -2200px;
 }
+
+.dark .header {
+  border-bottom: solid 1px rgb(247, 241, 241);
+}
+
+.search-container {
+  position: relative;
+  width: 300px;
+  top: -89px;
+  height: 28px;
+  left: 1100px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-container input[type="text"] {
+  padding: 6px;
+  position: relative;
+  top: -10px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+  outline: none;
+  background: none;
+  color: #000;
+}
+
+.search-container button {
+  position: relative;
+  left: 10px;
+  top: -10px;
+  width: 45px;
+  height: 30px;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #6b6666;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.dark .search-container button {
+  background-color: white;
+}
+.search-container button:hover {
+  background: #020101;
+}
+
 body.dark .header {
   color: rgb(255, 255, 255); /* Dark mode header color */
 }
 
 .mode {
-  float: black;
-
+  color: #000000;
   font-family: "Titillium Web", sans-serif;
   width: 20vh;
   position: relative;
@@ -47,7 +102,7 @@ body.dark .header {
   z-index: 2;
   font-size: 1.5rem;
 }
-.modedark {
+.dark .mode {
   color: white;
 }
 .change {
