@@ -21,3 +21,5 @@ To run this game locally, follow these steps:
 
 
 ![image](https://github.com/user-attachments/assets/e2fe9866-d309-42cd-8cac-57c2c6956f4c)
+![Screenshot 2024-10-23 011707](https://github.com/user-attachments/assets/2706ea0f-3791-486a-a89b-239e323bcc07)
+![Screenshot 2024-10-23 011655](https://github.com/user-attachments/assets/9c949c85-810f-4960-a7ca-12105f7cb2f5)
