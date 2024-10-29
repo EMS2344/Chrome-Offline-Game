@@ -1,7 +1,7 @@
 body {
   font-family: "Courier New", Courier, monospace;
   text-align: center;
-  background-color: rgb(141, 140, 140);
+  background-color: rgb(255, 254, 254);
 }
 body.dark {
   background-color: rgb(17, 16, 16); /* Dark mode background color */
@@ -44,8 +44,8 @@ body.dark {
   width: 300px;
   top: -89px;
   height: 28px;
-  left: 1100px;
-  background-color: rgba(255, 255, 255, 0.5);
+  left: 2200px;
+  background-color: rgba(212, 203, 203, 0.5);
   backdrop-filter: blur(8px);
   padding: 10px;
   border-radius: 8px;
@@ -53,6 +53,9 @@ body.dark {
   justify-content: center;
 }
 
+.dark .search-container {
+  background-color: rgba(145, 136, 136, 0.5);
+}
 .search-container input[type="text"] {
   padding: 6px;
   position: relative;
@@ -62,7 +65,7 @@ body.dark {
   border: none;
   outline: none;
   background: none;
-  color: #000;
+  color: #141414;
 }
 
 .search-container button {
@@ -74,7 +77,8 @@ body.dark {
   padding: 6px 10px;
   margin-top: 8px;
   margin-right: 16px;
-  background: #6b6666;
+  background: #0f0d0d;
+  border-radius: 10px;
   font-size: 17px;
   border: none;
   cursor: pointer;
@@ -84,7 +88,7 @@ body.dark {
   background-color: white;
 }
 .search-container button:hover {
-  background: #020101;
+  background: #6b78a3;
 }
 
 body.dark .header {
